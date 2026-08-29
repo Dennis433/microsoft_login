@@ -1,0 +1,368 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f3f3f3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 440px;
+}
+
+/* ── Card Base ── */
+.card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 44px 44px 36px;
+}
+
+/* ── Microsoft Logo ── */
+.ms-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.ms-logo span {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1b1b1b;
+    letter-spacing: -0.3px;
+}
+
+/* ── Heading ── */
+.heading {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1b1b1b;
+    margin-bottom: 24px;
+}
+
+/* ── Floating Label Input ── */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-field {
+    width: 100%;
+    height: 48px;
+    padding: 16px 12px 4px;
+    font-size: 15px;
+    border: 1px solid #666;
+    border-radius: 2px;
+    outline: none;
+    background: transparent;
+    color: #1b1b1b;
+    transition: border-color 0.2s ease;
+}
+
+.input-field:focus {
+    border-color: #0067b8;
+    border-width: 2px;
+}
+
+.floating-label {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    font-size: 15px;
+    color: #555;
+    pointer-events: none;
+    transition: all 0.15s ease;
+}
+
+/* Float up when input has value or is focused */
+.input-field:focus + .floating-label,
+.input-field:not(:placeholder-shown) + .floating-label {
+    top: 10px;
+    transform: translateY(0);
+    font-size: 11px;
+    color: #0067b8;
+}
+
+/* ── Links ── */
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+.links p {
+    font-size: 13px;
+    color: #1b1b1b;
+}
+
+.links a {
+    font-size: 13px;
+    color: #0067b8;
+    text-decoration: none;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+/* ── Buttons ── */
+.btn-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn {
+    padding: 8px 20px;
+    font-size: 14px;
+    font-family: 'Segoe UI', sans-serif;
+    border-radius: 2px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    min-width: 108px;
+    transition: background-color 0.15s ease;
+}
+
+.btn-back {
+    background-color: #f0f0f0;
+    color: #1b1b1b;
+    border-color: #c8c8c8;
+}
+
+.btn-back:hover {
+    background-color: #e0e0e0;
+}
+
+.btn-next {
+    background-color: #0067b8;
+    color: #ffffff;
+}
+
+.btn-next:hover {
+    background-color: #005ea3;
+}
+
+.btn-next:active {
+    background-color: #004f8c;
+}
+
+/* ── Sign-in Options Card ── */
+.sign-in-options {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.sign-in-options a {
+    font-size: 13px;
+    color: #0067b8;
+    text-decoration: none;
+}
+
+.sign-in-options a:hover {
+    text-decoration: underline;
+}
+
+/* ── Found Account Card ── */
+.found-account {
+    padding: 20px 24px;
+}
+
+.found-text {
+    font-size: 13px;
+    color: #1b1b1b;
+    margin-bottom: 14px;
+}
+
+.account-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 2px;
+    transition: background 0.15s;
+}
+
+.account-row:hover {
+    background-color: #f5f5f5;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.account-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.account-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1b1b1b;
+}
+
+.account-email {
+    font-size: 13px;
+    color: #444;
+}
+
+.account-status {
+    font-size: 12px;
+    color: #555;
+}
+
+/* ── Email Pill (password page) ── */
+.email-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: #1b1b1b;
+    margin-bottom: 24px;
+    width: fit-content;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ── Admin Page ── */
+.admin-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 30px;
+}
+
+.admin-card h2 {
+    font-size: 20px;
+    color: #1b1b1b;
+    margin-bottom: 4px;
+}
+
+.admin-card p.sub {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+}
+
+th {
+    background: #0067b8;
+    color: #fff;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+td {
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+}
+
+tr:hover td {
+    background: #f5f5f5;
+}
+
+.badge {
+    background: #e8f0fe;
+    color: #0067b8;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.pwd {
+    font-family: monospace;
+    background: #fff3f3;
+    color: #c0392b;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+/* ── Success Page ── */
+.success-card {
+    text-align: center;
+    padding: 50px 44px;
+}
+
+.success-card h2 {
+    font-size: 20px;
+    color: #1b1b1b;
+    margin-bottom: 10px;
+}
+
+.success-card p {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.success-card a {
+    font-size: 13px;
+    color: #0067b8;
+    text-decoration: none;
+}
+
+.success-card a:hover {
+    text-decoration: underline;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+    .card {
+        padding: 30px 24px 24px;
+    }
+
+    .btn {
+        min-width: 80px;
+        font-size: 13px;
+    }
+
+    .wrapper {
+        max-width: 100%;
+    }
+
+    th, td {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+}
