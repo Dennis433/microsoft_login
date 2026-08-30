@@ -4,22 +4,28 @@
     box-sizing: border-box;
 }
 
-body {
+html, body {
+    width: 100%;
+    min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f3f3f3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
 }
 
+body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px 16px 40px;
+}
+
+/* ── Wrapper ── */
 .wrapper {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     width: 100%;
     max-width: 440px;
+    margin: 0 auto;
 }
 
 /* ── Card Base ── */
@@ -28,6 +34,7 @@ body {
     border: 1px solid #e0e0e0;
     border-radius: 4px;
     padding: 44px 44px 36px;
+    width: 100%;
 }
 
 /* ── Microsoft Logo ── */
@@ -51,25 +58,29 @@ body {
     font-weight: 600;
     color: #1b1b1b;
     margin-bottom: 24px;
+    line-height: 1.3;
 }
 
-/* ── Floating Label Input ── */
+/* ── Input ── */
 .input-group {
-    position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
+    width: 100%;
 }
 
 .input-field {
     width: 100%;
     height: 48px;
-    padding: 16px 12px 4px;
+    padding: 0 12px;
     font-size: 15px;
+    font-family: 'Segoe UI', sans-serif;
     border: 1px solid #666;
     border-radius: 2px;
     outline: none;
     background: transparent;
     color: #1b1b1b;
     transition: border-color 0.2s ease;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .input-field:focus {
@@ -77,31 +88,27 @@ body {
     border-width: 2px;
 }
 
-.floating-label {
-    position: absolute;
-    top: 50%;
-    left: 12px;
-    transform: translateY(-50%);
-    font-size: 15px;
-    color: #555;
-    pointer-events: none;
-    transition: all 0.15s ease;
+.input-field::placeholder {
+    color: #767676;
+    font-size: 14px;
 }
 
-/* Float up when input has value or is focused */
-.input-field:focus + .floating-label,
-.input-field:not(:placeholder-shown) + .floating-label {
-    top: 10px;
-    transform: translateY(0);
-    font-size: 11px;
-    color: #0067b8;
+/* ── Error ── */
+.input-error {
+    color: #c0392b;
+    font-size: 12px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    line-height: 1.5;
+    display: block;
 }
 
 /* ── Links ── */
 .links {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+    margin-top: 20px;
     margin-bottom: 32px;
 }
 
@@ -125,10 +132,11 @@ body {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 .btn {
-    padding: 8px 20px;
+    padding: 10px 20px;
     font-size: 14px;
     font-family: 'Segoe UI', sans-serif;
     border-radius: 2px;
@@ -136,6 +144,7 @@ body {
     border: 1px solid transparent;
     min-width: 108px;
     transition: background-color 0.15s ease;
+    white-space: nowrap;
 }
 
 .btn-back {
@@ -196,7 +205,7 @@ body {
     align-items: center;
     gap: 14px;
     cursor: pointer;
-    padding: 6px;
+    padding: 8px;
     border-radius: 2px;
     transition: background 0.15s;
 }
@@ -217,17 +226,24 @@ body {
     display: flex;
     flex-direction: column;
     gap: 2px;
+    overflow: hidden;
 }
 
 .account-name {
     font-size: 14px;
     font-weight: 600;
     color: #1b1b1b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .account-email {
     font-size: 13px;
     color: #444;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .account-status {
@@ -235,7 +251,7 @@ body {
     color: #555;
 }
 
-/* ── Email Pill (password page) ── */
+/* ── Email Pill ── */
 .email-pill {
     display: flex;
     align-items: center;
@@ -247,19 +263,23 @@ body {
     font-size: 13px;
     color: #1b1b1b;
     margin-bottom: 24px;
-    width: fit-content;
     max-width: 100%;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
-/* ── Admin Page ── */
+.email-pill span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── Admin Card ── */
 .admin-card {
     background: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 4px;
     padding: 30px;
+    overflow-x: auto;
 }
 
 .admin-card h2 {
@@ -274,10 +294,12 @@ body {
     margin-bottom: 10px;
 }
 
+/* ── Table ── */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 16px;
+    min-width: 400px;
 }
 
 th {
@@ -287,6 +309,7 @@ th {
     text-align: left;
     font-size: 13px;
     font-weight: 600;
+    white-space: nowrap;
 }
 
 td {
@@ -294,6 +317,7 @@ td {
     font-size: 13px;
     color: #333;
     border-bottom: 1px solid #eee;
+    word-break: break-word;
 }
 
 tr:hover td {
@@ -318,7 +342,7 @@ tr:hover td {
     font-size: 13px;
 }
 
-/* ── Success Page ── */
+/* ── Success Card ── */
 .success-card {
     text-align: center;
     padding: 50px 44px;
@@ -342,27 +366,235 @@ tr:hover td {
     text-decoration: none;
 }
 
-.success-card a:hover {
+/* ── Dashboard ── */
+.ms-nav {
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 12px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.ms-nav .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ms-nav .nav-left span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1b1b1b;
+}
+
+.ms-nav .nav-right .avatar-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #0067b8;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.dashboard {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.welcome {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1b1b1b;
+    margin-bottom: 6px;
+    word-break: break-word;
+}
+
+.welcome-sub {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 24px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.dash-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.dash-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1b1b1b;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.dash-card p {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.dash-card a {
+    font-size: 13px;
+    color: #0067b8;
+    text-decoration: none;
+}
+
+.dash-card a:hover {
     text-decoration: underline;
 }
 
-/* ── Responsive ── */
-@media (max-width: 480px) {
+.dash-card .icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.security-badge {
+    display: inline-block;
+    background: #dff6dd;
+    color: #107c10;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #555;
+    padding: 6px 0;
+    border-bottom: 1px solid #f5f5f5;
+    gap: 10px;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-row span:last-child {
+    color: #1b1b1b;
+    font-weight: 500;
+    text-align: right;
+    word-break: break-word;
+}
+
+.signout-bar {
+    text-align: center;
+    margin-top: 30px;
+    padding-bottom: 30px;
+}
+
+.signout-bar a {
+    font-size: 13px;
+    color: #0067b8;
+    text-decoration: none;
+}
+
+/* ── Mobile ── */
+@media (max-width: 500px) {
+    body {
+        padding: 20px 12px 30px;
+        align-items: flex-start;
+    }
+
     .card {
-        padding: 30px 24px 24px;
+        padding: 28px 20px 24px;
+    }
+
+    .heading {
+        font-size: 20px;
     }
 
     .btn {
-        min-width: 80px;
+        min-width: 90px;
         font-size: 13px;
+        padding: 8px 14px;
     }
 
-    .wrapper {
-        max-width: 100%;
+    .sign-in-options {
+        padding: 14px 20px;
+    }
+
+    .found-account {
+        padding: 16px 20px;
+    }
+
+    .ms-nav {
+        padding: 10px 16px;
+    }
+
+    .dashboard {
+        padding: 0 12px;
+        margin: 20px auto;
+    }
+
+    .welcome {
+        font-size: 18px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .success-card {
+        padding: 30px 20px;
+    }
+
+    table {
+        min-width: 300px;
     }
 
     th, td {
         padding: 8px 10px;
         font-size: 12px;
+    }
+}
+
+/* ── Tablet ── */
+@media (min-width: 501px) and (max-width: 768px) {
+    body {
+        padding: 30px 20px;
+    }
+
+    .card {
+        padding: 36px 32px 28px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ── Desktop ── */
+@media (min-width: 769px) {
+    body {
+        padding: 80px 20px;
+        align-items: flex-start;
+    }
+
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
