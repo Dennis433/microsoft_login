@@ -102,8 +102,10 @@ def admin():
     return render_template('admin.html', attempts=attempts)
 
 
+# ── Create tables ──
 with app.app_context():
     db.create_all()
 
+
 if __name__ == '__main__':
-    app.run(debug=True)c
+    app.run(debug=True)
